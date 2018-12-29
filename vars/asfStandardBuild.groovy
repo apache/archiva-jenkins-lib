@@ -26,11 +26,18 @@ def call(Map params = [:]) {
     buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '3'))
   ])
 
-  // now determine the matrix of parallel builds
+  // now determine params
   def jdk = params.containsKey('jdk') ? params.jdk : 'JDK 1.8 (latest)'
   def cmdline = params.containsKey('cmdline') ? params.cmdline : 'clean install'
   def mvnName = params.containsKey('mvnName') ? params.mvnName : 'Maven 3.5.2'
-  def publishers = params.containsKey('publishers') ? params.publishers : []
+
+
+  def defaultPublishers = [artifactsPublisher(disabled: false), junitPublisher(ignoreAttachments: false, disabled: false),
+                          findbugsPublisher(disabled: true), openTasksPublisher(disabled: true),
+                           dependenciesFingerprintPublisher(disabled: false), invokerPublisher(disabled: true),
+                            pipelineGraphPublisher(disabled: false)]
+
+  def publishers = params.containsKey('publishers') ? params.publishers : defaultPublishers
 
 
   pipeline {
