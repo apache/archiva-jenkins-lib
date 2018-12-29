@@ -80,7 +80,7 @@ def mavenBuild(jdk, cmdline, mvnName, publishers) {
           mavenLocalRepo: localRepo,
           options: publishers) {
     // Some common Maven command line + provided command line
-    sh "mvn -V -B -e -Dmaven.test.failure.ignore=true $cmdline "
+    sh "mvn -V -B -U -e -Dmaven.test.failure.ignore=true $cmdline "
   }
 }
 
