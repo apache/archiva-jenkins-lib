@@ -60,7 +60,7 @@ def call(Map params = [:]) {
  * @return the Jenkinsfile step representing a maven build
  */
 def mavenBuild(jdk, cmdline, mvnName, publishers) {
-  def localRepo = "${env.JENKINS_HOME}/${env.EXECUTOR_NUMBER}" //
+  def localRepo = ".repository" // "${env.JENKINS_HOME}/${env.EXECUTOR_NUMBER}" //
   def settingsName = 'archiva-uid-jenkins'
   def mavenOpts = '-Xms1g -Xmx4g -Djava.awt.headless=true'
 
