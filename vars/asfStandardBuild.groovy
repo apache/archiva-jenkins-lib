@@ -32,7 +32,19 @@ def call(Map params = [:]) {
   def mvnName = params.containsKey('mvnName') ? params.mvnName : 'Maven 3.5.2'
   def publishers = params.containsKey('publishers') ? params.publishers : []
 
-  mavenBuild( jdk, cmdline, mvnName, publishers)
+
+  pipeline {
+    agent any
+    stages{
+      stage("Build"){
+        agent { node { label 'ubuntu' } }
+        options { timeout(time: 120, unit: 'MINUTES') }
+        steps{
+          mavenBuild( jdk, cmdline, mvnName, publishers)
+        }
+      }
+    }
+  }
 
 }
 
@@ -48,7 +60,7 @@ def call(Map params = [:]) {
  * @return the Jenkinsfile step representing a maven build
  */
 def mavenBuild(jdk, cmdline, mvnName, publishers) {
-  def localRepo = ".repository" // "${env.JENKINS_HOME}/${env.EXECUTOR_NUMBER}" //
+  def localRepo = "${env.JENKINS_HOME}/${env.EXECUTOR_NUMBER}" //
   def settingsName = 'archiva-uid-jenkins'
   def mavenOpts = '-Xms1g -Xmx4g -Djava.awt.headless=true'
 
