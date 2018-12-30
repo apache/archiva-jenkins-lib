@@ -54,7 +54,7 @@ def call(Map params = [:]) {
     }
     post {
       always {
-        cleanWs deleteDirs: true, notFailBuild: true, patterns: [[pattern: '.repository', type: 'INCLUDE']]
+        cleanWs deleteDirs: true, notFailBuild: true, patterns: [[pattern: '**/.repository/**', type: 'INCLUDE']]
       }
       unstable {
         script{
