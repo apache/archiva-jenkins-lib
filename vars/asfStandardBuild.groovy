@@ -98,7 +98,7 @@ def mavenBuild(jdk, cmdline, mvnName, publishers) {
           maven: mvnName,
           jdk: "$jdk",
           publisherStrategy: 'EXPLICIT',
-          globalMavenSettingsConfig: settingsName,
+          //globalMavenSettingsConfig: settingsName,
           mavenOpts: mavenOpts,
           mavenLocalRepo: localRepo,
           options: publishers) {
