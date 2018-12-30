@@ -51,8 +51,30 @@ def call(Map params = [:]) {
         }
       }
     }
+    post {
+      always {
+        cleanWs deleteDirs: true, notFailBuild: true, patterns: [[pattern: '.repository', type: 'EXCLUDE']]
+      }
+      unstable {
+        script{
+          asfStandardBuild.notifyBuild( "Unstable Build ")
+        }
+      }
+      failure {
+        script{
+          asfStandardBuild.notifyBuild( "Error in redback core build ")
+        }
+      }
+      success {
+        script {
+          def previousResult = currentBuild.previousBuild?.result
+          if (previousResult && !currentBuild.resultIsWorseOrEqualTo( previousResult ) ) {
+            asfStandardBuild.notifyBuild( "Fixed" )
+          }
+        }
+      }
+    }
   }
-
 }
 
 /**
