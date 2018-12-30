@@ -22,6 +22,7 @@
 def call(Map params = [:]) {
   // Faster build and reduces IO needs
   properties([
+    disableConcurrentBuilds(),
     durabilityHint('PERFORMANCE_OPTIMIZED'),
     buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '3'))
   ])
