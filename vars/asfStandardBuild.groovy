@@ -57,19 +57,19 @@ def call(Map params = [:]) {
       }
       unstable {
         script{
-          asfStandardBuild.notifyBuild( "Unstable Build ")
+          notifyBuild( "Unstable Build ")
         }
       }
       failure {
         script{
-          asfStandardBuild.notifyBuild( "Error in redback core build ")
+          notifyBuild( "Error in build ")
         }
       }
       success {
         script {
           def previousResult = currentBuild.previousBuild?.result
           if (previousResult && !currentBuild.resultIsWorseOrEqualTo( previousResult ) ) {
-            asfStandardBuild.notifyBuild( "Fixed" )
+            notifyBuild( "Fixed" )
           }
         }
       }
