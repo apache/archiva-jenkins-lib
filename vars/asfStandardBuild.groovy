@@ -37,7 +37,7 @@ def call(Map params = [:]) {
   def defaultPublishers = [artifactsPublisher(disabled: false), junitPublisher(ignoreAttachments: false, disabled: false),
                           findbugsPublisher(disabled: true), openTasksPublisher(disabled: true),
                            dependenciesFingerprintPublisher(disabled: false), invokerPublisher(disabled: true),
-                            pipelineGraphPublisher(disabled: false)]
+                            pipelineGraphPublisher(disabled: false), mavenLinkerPublisher(disabled: false)]
 
   def publishers = params.containsKey('publishers') ? params.publishers : defaultPublishers
 
@@ -98,8 +98,8 @@ def mavenBuild(jdk, cmdline, mvnName, publishers) {
   withMaven(
           maven: mvnName,
           jdk: "$jdk",
-          //options: publishers,
-          //publisherStrategy: 'EXPLICIT',
+          options: publishers,
+          publisherStrategy: 'EXPLICIT',
           //globalMavenSettingsConfig: settingsName,
           mavenOpts: mavenOpts,
           mavenLocalRepo: localRepo) {
