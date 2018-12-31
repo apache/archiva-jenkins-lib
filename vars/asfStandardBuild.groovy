@@ -98,11 +98,11 @@ def mavenBuild(jdk, cmdline, mvnName, publishers) {
   withMaven(
           maven: mvnName,
           jdk: "$jdk",
-          publisherStrategy: 'EXPLICIT',
+          //options: publishers,
+          //publisherStrategy: 'EXPLICIT',
           //globalMavenSettingsConfig: settingsName,
           mavenOpts: mavenOpts,
-          mavenLocalRepo: localRepo,
-          options: publishers) {
+          mavenLocalRepo: localRepo) {
     // Some common Maven command line + provided command line
     sh "mvn -V -B -U -e -Dmaven.test.failure.ignore=true $cmdline "
   }
