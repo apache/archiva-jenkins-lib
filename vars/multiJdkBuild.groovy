@@ -53,26 +53,31 @@ def call(Map params = [:]) {
                            dependenciesFingerprintPublisher(disabled: false), invokerPublisher(disabled: true),
                             pipelineGraphPublisher(disabled: false), mavenLinkerPublisher(disabled: false)]
 
+  def defaultPublishersJdk = [artifactsPublisher(disabled: true), junitPublisher(ignoreAttachments: false, disabled: false),
+                           findbugsPublisher(disabled: true), openTasksPublisher(disabled: true),
+                           dependenciesFingerprintPublisher(disabled: true), invokerPublisher(disabled: true),
+                           pipelineGraphPublisher(disabled: true), mavenLinkerPublisher(disabled: true)]
+
   def publishers = params.containsKey('publishers') ? params.publishers : defaultPublishers
 
 
   pipeline {
     agent any
     stages{
-      stage("Build JDK8"){
+      stage("Build JDK8") {
         agent { node { label 'ubuntu' } }
         options { timeout(time: 120, unit: 'MINUTES') }
-        steps{
-          mavenBuild( jdk, cmdline, mvnName, publishers)
+        steps {
+          mavenBuild(jdk, cmdline, mvnName, publishers)
         }
       }
-      stage("Build JDK11"){
+      stage("Build JDK11") {
         agent { node { label 'ubuntu' } }
         options { timeout(time: 120, unit: 'MINUTES') }
-        steps{
-          mavenBuild( jdk11, cmdlineJdk11, mvnName, publishers)
-        } 
-      } 
+        steps {
+          mavenBuild(jdk11, cmdlineJdk11, mvnName, publishers)
+        }
+      }
     }
     post {
       always {
