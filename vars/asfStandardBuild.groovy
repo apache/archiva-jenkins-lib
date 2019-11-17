@@ -19,6 +19,17 @@
  * under the License.
  */
 
+/*
+ * Library for running jenkins pipeline builds. 
+ * You can add the library to your Jenkins configuration and put the following line
+ * to the Jenkinsfile:
+ * <code>asfStandardBuild()</code>
+ *
+ * If you have want to use it in your local jenkins installation you can add the 
+ * environment variable: <code>NONAPACHEORG_RUN=y</code> to your central jenkins
+ * configuration. That means that not deploy task is executed, only install.
+ */
+
 def call(Map params = [:]) {
   // Faster build and reduces IO needs
   properties([
@@ -30,7 +41,7 @@ def call(Map params = [:]) {
   // now determine params
   def jdk = params.containsKey('jdk') ? params.jdk : 'JDK 1.8 (latest)'
   // use the cmdLine parameter otherwise default depending on current branch
-  def cmdline = params.containsKey('cmdline') ? params.cmdline : (env.BRANCH_NAME == 'master'?"clean deploy":"clean install")
+  def cmdline = params.containsKey('cmdline') ? params.cmdline : ((env.NONAPACHEORG_RUN != 'y' && env.BRANCH_NAME == 'master') ?"clean deploy":"clean install")
   def mvnName = params.containsKey('mvnName') ? params.mvnName : 'Maven 3.5.4'
 
 
