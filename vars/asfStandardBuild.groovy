@@ -56,12 +56,12 @@ def call(Map params = [:]) {
   pipeline {
     agent {
       node {
-        label 'ubuntu && !H26'
+        label 'ubuntu'
       }
     }
     stages{
       stage("Build"){
-        agent { node { label 'ubuntu && !H26' } }
+        agent { node { label 'ubuntu' } }
         options { timeout(time: 120, unit: 'MINUTES') }
         steps{
           mavenBuild( jdk, cmdline, mvnName, publishers)
