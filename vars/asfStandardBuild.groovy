@@ -39,7 +39,7 @@ def call(Map params = [:]) {
   ])
 
   // now determine params
-  def jdk = params.containsKey('jdk') ? params.jdk : 'JDK 1.8 (latest)'
+  def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_1.8_latest'
   // use the cmdLine parameter otherwise default depending on current branch
   def cmdline = params.containsKey('cmdline') ? params.cmdline : ((env.NONAPACHEORG_RUN != 'y' && env.BRANCH_NAME == 'master') ?"clean deploy":"clean install")
   def mvnName = params.containsKey('mvnName') ? params.mvnName : 'Maven 3.5.4'

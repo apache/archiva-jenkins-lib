@@ -40,8 +40,8 @@ def call(Map params = [:]) {
   ])
 
   // now determine params
-  def jdk = params.containsKey('jdk') ? params.jdk : 'JDK 1.8 (latest)'
-  def jdk11 = params.containsKey('jdk11') ? params.jdk : 'JDK 11 (latest)'
+  def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_1.8_latest'
+  def jdk11 = params.containsKey('jdk11') ? params.jdk : 'jdk_11_latest'
   // use the cmdLine parameter otherwise default depending on current branch
   def cmdline = params.containsKey('cmdline') ? params.cmdline : ((env.NONAPACHEORG_RUN != 'y' && env.BRANCH_NAME == 'master') ?"clean deploy":"clean install")
   def cmdlineJdk11 = params.containsKey('cmdlineJdk11') ? params.cmdlineJdk11 : "clean install"
