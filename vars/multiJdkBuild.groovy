@@ -42,6 +42,7 @@ def call(Map params = [:]) {
   // now determine params
   def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_1.8_latest'
   def jdk11 = params.containsKey('jdk11') ? params.jdk : 'jdk_11_latest'
+  def upstreamTriggers = params.containsKey('upstreamTriggers')?params.upstreamTriggers:''
   // use the cmdLine parameter otherwise default depending on current branch
   def cmdline = params.containsKey('cmdline') ? params.cmdline : ((env.NONAPACHEORG_RUN != 'y' && env.BRANCH_NAME == 'master') ?"clean deploy":"clean install")
   def cmdlineJdk11 = params.containsKey('cmdlineJdk11') ? params.cmdlineJdk11 : "clean install"
@@ -63,6 +64,10 @@ def call(Map params = [:]) {
 
   pipeline {
     agent any
+    triggers { 
+        upstream(upstreamProjects: upstreamTriggers, threshold: hudson.model.Result.SUCCESS) 
+    }
+
     stages{
       stage("Build JDK8") {
         agent { node { label 'ubuntu' } }
