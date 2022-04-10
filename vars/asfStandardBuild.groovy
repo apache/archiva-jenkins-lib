@@ -47,8 +47,8 @@ def call(Map params = [:]) {
 
   def defaultPublishers = [artifactsPublisher(disabled: false), junitPublisher(ignoreAttachments: false, disabled: false),
                           findbugsPublisher(disabled: true), openTasksPublisher(disabled: true),
-                           dependenciesFingerprintPublisher(disabled: false), invokerPublisher(disabled: true),
-                            pipelineGraphPublisher(disabled: false), mavenLinkerPublisher(disabled: false)]
+                           dependenciesFingerprintPublisher(disabled: true), invokerPublisher(disabled: true),
+                            pipelineGraphPublisher(disabled: true), mavenLinkerPublisher(disabled: true)]
 
   def publishers = params.containsKey('publishers') ? params.publishers : defaultPublishers
 
