@@ -36,7 +36,7 @@ def call(Map params = [:]) {
   properties([
     disableConcurrentBuilds(),
     durabilityHint('PERFORMANCE_OPTIMIZED'),
-    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '3'))
+    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '2'))
   ])
 
   // now determine params
