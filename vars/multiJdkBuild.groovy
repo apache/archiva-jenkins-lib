@@ -69,20 +69,25 @@ def call(Map params = [:]) {
     }
 
     stages{
-      stage("Build JDK8") {
-        agent { node { label 'ubuntu' } }
-        options { timeout(time: 120, unit: 'MINUTES') }
-        steps {
-          mavenBuild(jdk, cmdline, mvnName, publishers)
+      stage("Parallel Stage") {
+        parallel {
+          stage("Build JDK8") {
+            agent { node { label 'ubuntu' } }
+            options { timeout(time: 120, unit: 'MINUTES') }
+            steps {
+              mavenBuild(jdk, cmdline, mvnName, publishers)
+            }
+          }
+          stage("Build JDK11") {
+            agent { node { label 'ubuntu' } }
+            options { timeout(time: 120, unit: 'MINUTES') }
+            steps {
+              mavenBuild(jdk11, cmdlineJdk11, mvnName, publishers)
+            }
+          }
         }
-      }
-      stage("Build JDK11") {
-        agent { node { label 'ubuntu' } }
-        options { timeout(time: 120, unit: 'MINUTES') }
-        steps {
-          mavenBuild(jdk11, cmdlineJdk11, mvnName, publishers)
-        }
-      }
+      } 
+      
     }
     post {
       always {
