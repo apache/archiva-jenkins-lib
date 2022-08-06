@@ -39,10 +39,10 @@ def call(Map params = [:]) {
   ])
 
   // now determine params
-  def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_1.8_latest'
+  def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_11_latest'
   // use the cmdLine parameter otherwise default depending on current branch
   def cmdline = params.containsKey('cmdline') ? params.cmdline : ((env.NONAPACHEORG_RUN != 'y' && env.BRANCH_NAME == 'master') ?"clean deploy":"clean install")
-  def mvnName = params.containsKey('mvnName') ? params.mvnName : 'maven_3.6.3'
+  def mvnName = params.containsKey('mvnName') ? params.mvnName : 'maven_3.8.6'
 
 
   def defaultPublishers = [artifactsPublisher(disabled: false), junitPublisher(ignoreAttachments: false, disabled: false),
