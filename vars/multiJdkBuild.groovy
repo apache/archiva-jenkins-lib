@@ -40,13 +40,13 @@ def call(Map params = [:]) {
   ])
 
   // now determine params
-  def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_1.8_latest'
-  def jdk11 = params.containsKey('jdk11') ? params.jdk : 'jdk_11_latest'
+  def jdk = params.containsKey('jdk') ? params.jdk : 'jdk_11_latest'
+  def jdk17 = params.containsKey('jdk17') ? params.jdk : 'jdk_17_latest'
   def upstreamTriggers = params.containsKey('upstreamTriggers')?params.upstreamTriggers:''
   // use the cmdLine parameter otherwise default depending on current branch
   def cmdline = params.containsKey('cmdline') ? params.cmdline : ((env.NONAPACHEORG_RUN != 'y' && env.BRANCH_NAME == 'master') ?"clean deploy":"clean install")
   def cmdlineJdk11 = params.containsKey('cmdlineJdk11') ? params.cmdlineJdk11 : "clean install"
-  def mvnName = params.containsKey('mvnName') ? params.mvnName : 'maven_3.6.3'
+  def mvnName = params.containsKey('mvnName') ? params.mvnName : 'maven_3.8.6'
 
 
   def defaultPublishers = [artifactsPublisher(disabled: false), junitPublisher(ignoreAttachments: false, disabled: false),
@@ -71,18 +71,18 @@ def call(Map params = [:]) {
     stages{
       stage("Parallel Stage") {
         parallel {
-          stage("Build JDK8") {
+          stage("Build JDK11") {
             agent { node { label 'ubuntu' } }
             options { timeout(time: 120, unit: 'MINUTES') }
             steps {
               mavenBuild(jdk, cmdline, mvnName, publishers)
             }
           }
-          stage("Build JDK11") {
+          stage("Build JDK17") {
             agent { node { label 'ubuntu' } }
             options { timeout(time: 120, unit: 'MINUTES') }
             steps {
-              mavenBuild(jdk11, cmdlineJdk11, mvnName, publishers)
+              mavenBuild(jdk17, cmdlineJdk11, mvnName, publishers)
             }
           }
         }
